@@ -40,7 +40,7 @@ class App extends Component {
             body: JSON.stringify(loginCredentials)
         });
 
-        return await this.checkStatus(response);
+        return response.json();
     };
 
     checkStatus = (res) => {

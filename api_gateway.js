@@ -6,6 +6,7 @@ const AccountService = require('./AccountService');
 
 const app = express();
 const port = process.env.PORT || 5000;
+const accountService = new AccountService();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(pino);
@@ -13,14 +14,20 @@ app.use(pino);
 app.get('/test', (req, res) => {
     res.send({ loginData: 'Retrieved Login Data' });
 });
-app.post('/login', (req, res) => {
+
+app.post('/register', (req, res) => {
     if (req.body && req.body.username && req.body.password) {
-        let accountService = new AccountService(req.body.username, req.body.password);
-        accountService.checkRegisteredUser();
+        accountService.registerUser(req.body, res);
     }
 });
 
-app.post('/')
+app.post('/login', (req, res) => {
+    if (req.body && req.body.username && req.body.password) {
+        accountService.isRegisteredUser(req.body.username, res);
+    }
+});
+
+app.post('/');
 app.listen(port, () =>
     console.log(`Express server is running on localhost:${port}`)
 );

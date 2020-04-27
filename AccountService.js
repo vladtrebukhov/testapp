@@ -2,23 +2,45 @@ const firebase = require("firebase/app");
 const firebaseConfig = require('./firebaseConfig');
 require("firebase/auth");
 require("firebase/database");
+const User = require('./User');
 
 module.exports =  class AccountService {
-    constructor(username, password) {
-        this.username = username;
-        this.password = password;
-        firebase.initializeApp(firebaseConfig);
-        this.database = firebase.database();
+    constructor() {
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        this.database = firebase.database().ref();
+        this.usersRef = this.database.child('users');
     }
 
-    checkRegisteredUser = () => {
-        const usersRef = this.database.ref('users');
+    isRegisteredUser = (username, callback) => {
+        this.usersRef.on('value', (snapshot) => {
+            let dbUserData = snapshot.val();
+            let isRegistered = dbUserData[username] ? true : false;
 
-        console.log(usersRef);
+            isRegistered ? callback.send(true) : callback.send(false);
+        });
     };
 
-    registerUser = () => {
+    registerUser = (userData, callback) => {
+        //snapshot is the current state of the database
+        this.usersRef.on('value', (snapshot) => {
+            let dbUserData = snapshot.val();
+            let isRegistered = dbUserData[userData.username] ? true : false;
 
+            if (!isRegistered) {
+                this.usersRef.child(`${userData.username}`).set({
+                    password: userData.password
+                }).then(() => {
+                    callback.send('New user registered');
+                });
+            }
+        });
+    };
+
+    generateUserId = () => {
+        return Math.floor(Math.random() * 1000000000)
     }
+
 };
 
