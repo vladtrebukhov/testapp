@@ -1,0 +1,49 @@
+.mainContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+}
+
+.loginForm {
+    display: grid;
+    grid-template-columns: 400px;
+    grid-template-rows: auto;
+    grid-template-areas:
+    "usernameLabel"
+    "usernameInput"
+    "passwordLabel"
+    "passwordInput"
+    "loginButton"
+    "registerButton"
+}
+
+.usernameLabel {
+    grid-area: usernameLabel;
+}
+
+.usernameInput {
+    grid-area: usernameInput;
+}
+
+.passwordLabel {
+    grid-area: passwordLabel;
+}
+
+.passwordInput {
+    grid-area: passwordInput;
+}
+
+.loginButton {
+    width: 100px;
+    grid-area: loginButton;
+}
+
+.registerButton {
+    grid-area: registerButton;
+}
+
+#registerLink {
+    font-size: 10px;
+    text-decoration: none;
+}
