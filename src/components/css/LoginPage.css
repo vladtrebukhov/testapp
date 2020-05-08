@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: auto;
+    background-image: url("images/clouds.jpg");
 }
 
 .loginForm {
@@ -37,6 +37,7 @@
 .loginButton {
     width: 100px;
     grid-area: loginButton;
+    cursor: pointer;
 }
 
 .registerButton {
