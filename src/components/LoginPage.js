@@ -1,39 +1,25 @@
 import React from 'react';
 import './css/LoginPage.css';
 
-let username;
-let password;
-
-export default function LoginPage() {
-    function handleSubmit(event) {
-        event.preventDefault();
-        checkRegisteredUser(event).then(response => console.log(response));
+export default class LoginPage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.username = null;
+        this.password = null;
     }
 
-    async function checkRegisteredUser(event) {
-        const response = await fetch('/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': "application/json"
-            },
-            body: JSON.stringify({username: username, password: password})
-        });
-
-        return response.json();
+    render() {
+        return (
+            <div className="mainContainer">
+                <form className="loginForm" onSubmit={event => this.props.handleLogin(this.username, this.password, event)}>
+                    {this.props.isLoggedIn === false ? <div className="loginError">Login Error</div> : null}
+                    <input className="usernameInput" id="username_input"type="text" placeholder="Username" onChange={(event) => this.username = event.target.value}/>
+                    <input className="passwordInput" id="password_input" placeholder="Password" type="password" onChange={(event) => this.password = event.target.value}/>
+                    <button className="loginButton">Login</button>
+                    <a id="registerButton" href="/register">Register</a>
+                </form>
+            </div>)
     }
-
-    return (
-        <div className="mainContainer">
-            <form className="loginForm" onSubmit={event => handleSubmit(event)}>
-                <label className="usernameLabel" htmlFor="username_input">Username:</label>
-                <input className="usernameInput" id="username_input"type="text" onChange={(event) => username = event.target.value}/>
-                <label className="passwordLabel" htmlFor="password_input">Password:</label>
-                <input className="passwordInput" id="password_input" type="password" onChange={(event) => password = event.target.value}/>
-                <button className="loginButton">Login</button>
-                {/*<button type="button" onClick={() => window.location = "/register"}>Register</button>*/}
-                <a id="registerLink" href="/register">Register</a>
-            </form>
-        </div>)
 }
 
 
