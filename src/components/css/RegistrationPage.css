@@ -1,0 +1,50 @@
+.mainContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("images/clouds.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+}
+
+.registrationForm {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+    grid-template-areas:
+    'firstNameLabel firstNameInput'
+    'lastNameLabel lastNameInput'
+    'usernameLabel usernameInput'
+    'passwordLabel passwordInput'
+
+
+}
+
+#first_name_label {
+    grid-area: firstNameLabel
+}
+
+#first_name_input {
+    grid-area:  firstNameInput
+}
+
+#last_name_label {
+    grid-area: lastNameLabel
+}
+
+#username_label {
+    grid-area: usernameLabel
+}
+
+#username_input {
+    grid-area: usernameInput;
+}
+
+#password_label {
+    grid-area: passwordLabel
+}
+
+#password_input {
+    grid-area: passwordInput
+}

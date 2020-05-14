@@ -17,8 +17,10 @@ app.get('/test', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
-    if (req.body && req.body.username && req.body.password) {
+    if (req.body && req.body.username && req.body.password && req.body.firstname && req.body.lastname) {
         accountService.registerUser(req.body, res);
+    } else {
+        res.send('input misssing');
     }
 });
 

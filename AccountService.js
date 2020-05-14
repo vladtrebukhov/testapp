@@ -30,6 +30,8 @@ module.exports =  class AccountService {
 
             if (!isRegistered) {
                 this.usersRef.child(`${userData.username}`).set({
+                    firstname: userData.firstname,
+                    lastname: userData.lastname,
                     password: userData.password
                 }).then(() => {
                     callback.send('New user registered');
