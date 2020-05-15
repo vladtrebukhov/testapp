@@ -40,14 +40,14 @@ input, .loginError {
     cursor: pointer;
     border-radius: 5px;
     position: relative;
-    left: 35%;
+    left: 30%;
     margin-top: 5px;
 }
 
 #registerButton {
     grid-area: registerButton;
     position: relative;
-    left: 35%;
+    left: 30%;
     width: 100px;
     font-size: 13px;
     text-decoration: none;

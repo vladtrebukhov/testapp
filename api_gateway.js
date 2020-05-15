@@ -12,16 +12,11 @@ app.use(bodyParser.urlencoded({ extended: true}));
 app.use(pino);
 
 app.get('/test', (req, res) => {
-    console.log('hi');
     res.send({ loginData: 'Retrieved Login Data' });
 });
 
 app.post('/register', (req, res) => {
-    if (req.body && req.body.username && req.body.password && req.body.firstname && req.body.lastname) {
-        accountService.registerUser(req.body, res);
-    } else {
-        res.send('input misssing');
-    }
+    accountService.registerUser(req.body, res);
 });
 
 app.post('/login', (req, res) => {

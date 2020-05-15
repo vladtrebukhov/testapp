@@ -30,7 +30,7 @@ class App extends Component {
     handleLogin = (username, password, event) => {
         event.preventDefault();
         this.checkRegisteredUser(username, password).then(response => {
-            console.log(response)
+            console.log(response);
             response === true ? this.setState({isLoggedIn: true}) : this.setState({isLoggedIn: false});
             });
     };

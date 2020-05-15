@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import App from './App';
 import RegistrationPage from './components/RegistrationPage';
 import LoginPage from "./components/LoginPage";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 //list of routes for application
 const routing = (

@@ -1,19 +1,43 @@
 import React from 'react';
-import './css/RegistrationPage.css'
-//using bcrypt for hashing passwords
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
+import './css/RegistrationPage.css';
+import MainNavBar from './MainNavBar';
+import Button from 'react-bootstrap/Button'
+import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
+
+//using bcrypt for hashing passwords - figure this out eventually
+// const bcrypt = require('bcrypt');
+// const saltRounds = 10;
 
 class RegistrationPage extends React.Component {
     constructor() {
         super();
+        //need to put error in state to re-render component after setState
+        this.state = {
+            error: null
+        };
         this.firstname = null;
         this.lastname = null;
-        this.username = null;
+        this.email = null;
         this.password = null;
     };
 
+    showError = () => {
+        setTimeout(() => {
+            this.setState({error: false})
+        }, 3000);
+        return <div className="alert alert-danger text-center" role="alert">Check Your Input</div>
+    };
+
     registerUser = async(event) => {
+        event.preventDefault();
+
+        if (!this.firstname || !this.lastname || !this.email || !this.password) {
+            this.setState({error: true});
+            return;
+        }
+
+        console.log(this.firstname, this.lastname, this.email, this.password);
         const response = await fetch('/register', {
             method: 'POST',
             headers: {
@@ -22,28 +46,46 @@ class RegistrationPage extends React.Component {
             body: JSON.stringify({
                 firstname: this.firstname,
                 lastname: this.lastname,
-                username: this.username,
+                email: this.email,
                 password: this.password})
         });
-        event.preventDefault();
-
         return response.json();
     };
 
     render() {
         return (
-            <div className="mainContainer">
-                <form className="registrationForm" onSubmit={event => this.registerUser(event)}>
-                    <label id="first_name_label" htmlFor="first_name_input">First Name:</label>
-                    <input id="first_name_input"type="text" onChange={event => this.firstname = event.target.value}/>
-                    <label id="last_name_label" htmlFor="last_name_input">Last Name:</label>
-                    <input id="last_name_input"type="text" onChange={event => this.lastname = event.target.value}/>
-                    <label id="username_label" htmlFor="username_input">Username:</label>
-                    <input id="username_input"type="text" onChange={event => this.username = event.target.value}/>
-                    <label id="password_label" htmlFor="password_input">Password:</label>
-                    <input id="password_input" type="password" onChange={event => this.password = event.target.value}></input>
-                    <button type="submit">Submit</button>
-                </form>
+            <div>
+                <MainNavBar/>
+                <div className="mainContainer">
+                    <Card style={{width: '25rem'}}>
+                        {this.state.error ? this.showError(): null}
+                        <Card.Body>
+                            <Card.Title style={{textAlign: 'center'}}>Create An Account</Card.Title>
+                            <Form onSubmit={event => this.registerUser(event)}>
+                                <Form.Group controlId="formFirstName">
+                                    <Form.Control type="text" placeholder="First Name"  onChange={event => this.firstname = event.target.value}/>
+                                </Form.Group>
+                                <Form.Group controlId="formLastName">
+                                    <Form.Control type="text" placeholder="Last Name"  onChange={event => this.lastname = event.target.value}/>
+                                </Form.Group>
+                                <Form.Group controlId="formEmail">
+                                    <Form.Control type="email" placeholder="Email"  onChange={event => this.email = event.target.value}/>
+                                </Form.Group>
+                                <Form.Group controlId="formPassword">
+                                    <Form.Control type="password" placeholder="Password"  onChange={event => this.password = event.target.value}/>
+                                </Form.Group>
+                                <Form.Text className="text-muted text-center">
+                                    We'll never share your information with anyone else.
+                                </Form.Text>
+                                <Button style={{marginTop: '10px'}}
+                                        variant="outline-primary"
+                                        className="" block type="submit">
+                                    Submit
+                                </Button>
+                            </Form>
+                        </Card.Body>
+                    </Card>
+                </div>
             </div>
 
         );

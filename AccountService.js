@@ -26,10 +26,11 @@ module.exports =  class AccountService {
         //snapshot is the current state of the database
         this.usersRef.on('value', (snapshot) => {
             let dbUserData = snapshot.val();
-            let isRegistered = dbUserData[userData.username] ? true : false;
+            console.log(userData);
+            let isRegistered = dbUserData[userData.email] ? true : false;
 
             if (!isRegistered) {
-                this.usersRef.child(`${userData.username}`).set({
+                this.usersRef.child(`${userData.email}`).set({
                     firstname: userData.firstname,
                     lastname: userData.lastname,
                     password: userData.password
