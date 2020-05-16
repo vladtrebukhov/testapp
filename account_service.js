@@ -2,7 +2,6 @@ const firebase = require("firebase/app");
 const firebaseConfig = require('./firebaseConfig');
 require("firebase/auth");
 require("firebase/database");
-const User = require('./User');
 
 module.exports =  class AccountService {
     constructor() {
@@ -13,37 +12,40 @@ module.exports =  class AccountService {
         this.usersRef = this.database.child('users');
     }
 
+    login = (username, password, callback) => {
+        this.usersRef.on('value', (snapshot) => {
+            let dbUserData = snapshot.val();
+            if (!dbUserData[username]) {
+                callback.send({userDoesNotExist: true});
+            } else if (dbUserData[username] && dbUserData[username]['password'] !== password){
+                callback.send({wrongPassword: true})
+            } else {
+                callback.send(true);
+            }
+        });
+    };
+
     isRegisteredUser = (username, callback) => {
         this.usersRef.on('value', (snapshot) => {
             let dbUserData = snapshot.val();
             let isRegistered = dbUserData[username] ? true : false;
-
             isRegistered ? callback.send(true) : callback.send(false);
         });
     };
 
     registerUser = (userData, callback) => {
-        //snapshot is the current state of the database
-        this.usersRef.on('value', (snapshot) => {
-            let dbUserData = snapshot.val();
-            console.log(userData);
-            let isRegistered = dbUserData[userData.email] ? true : false;
-
-            if (!isRegistered) {
-                this.usersRef.child(`${userData.email}`).set({
+            //snapshot is the current state of the database
+            this.usersRef.on('value', (snapshot) => {
+                firebase.database().ref('users/' + userData.username).set({
                     firstname: userData.firstname,
                     lastname: userData.lastname,
                     password: userData.password
-                }).then(() => {
-                    callback.send('New user registered');
                 });
-            }
-        });
-    };
-
-    generateUserId = () => {
-        return Math.floor(Math.random() * 1000000000)
-    }
-
+                callback.send('success!');
+            });
+        }
 };
+
+
+
 

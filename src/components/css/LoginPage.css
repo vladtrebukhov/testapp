@@ -8,57 +8,56 @@
     height: 100vh;
 }
 
-.loginForm {
-    display: grid;
-    grid-template-columns: 400px;
-    grid-template-rows: auto;
-    grid-template-areas:
-    "loginError"
-    "usernameInput"
-    "passwordInput"
-    "loginButton"
-    "registerButton"
-}
+/*.loginForm {*/
+/*    display: grid;*/
+/*    grid-template-columns: 400px;*/
+/*    grid-template-rows: auto;*/
+/*    grid-template-areas:*/
+/*    "loginError"*/
+/*    "usernameInput"*/
+/*    "passwordInput"*/
+/*    "loginButton"*/
+/*    "registerButton"*/
+/*}*/
 
-input, .loginError {
-    margin: 5px;
-    width: 350px;
-    border-radius: 3px;
-}
+/*input, .loginError {*/
+/*    margin: 5px;*/
+/*    width: 350px;*/
+/*    border-radius: 3px;*/
+/*}*/
 
-.usernameInput {
-    grid-area: usernameInput;
-}
+/*.usernameInput {*/
+/*    grid-area: usernameInput;*/
+/*}*/
 
-.passwordInput {
-    grid-area: passwordInput;
-}
+/*.passwordInput {*/
+/*    grid-area: passwordInput;*/
+/*}*/
 
-.loginButton {
-    grid-area: loginButton;
-    width: 100px;
-    cursor: pointer;
-    border-radius: 5px;
-    position: relative;
-    left: 30%;
-    margin-top: 5px;
-}
+/*.loginButton {*/
+/*    grid-area: loginButton;*/
+/*    width: 100px;*/
+/*    cursor: pointer;*/
+/*    border-radius: 5px;*/
+/*    position: relative;*/
+/*    left: 30%;*/
+/*    margin-top: 5px;*/
+/*}*/
 
 #registerButton {
-    grid-area: registerButton;
     position: relative;
-    left: 30%;
+    left: 43%;
     width: 100px;
     font-size: 13px;
     text-decoration: none;
     text-align: center;
-    margin-top: 5px;
+    margin-top: 10px;
 }
 
-.loginError {
-    grid-area: loginError;
-    width: 350px;
-    height: 20px;
-    background-color: crimson;
-    text-align: center;
-}
+/*.loginError {*/
+/*    grid-area: loginError;*/
+/*    width: 350px;*/
+/*    height: 20px;*/
+/*    background-color: crimson;*/
+/*    text-align: center;*/
+/*}*/

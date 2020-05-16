@@ -4,6 +4,7 @@ import MainNavBar from './MainNavBar';
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
+import UserService from "../UserService";
 
 //using bcrypt for hashing passwords - figure this out eventually
 // const bcrypt = require('bcrypt');
@@ -14,30 +15,43 @@ class RegistrationPage extends React.Component {
         super();
         //need to put error in state to re-render component after setState
         this.state = {
-            error: null
+            loginError: null,
+            errorMessage: null
         };
         this.firstname = null;
         this.lastname = null;
-        this.email = null;
+        this.username = null;
         this.password = null;
+
     };
 
     showError = () => {
         setTimeout(() => {
-            this.setState({error: false})
-        }, 3000);
-        return <div className="alert alert-danger text-center" role="alert">Check Your Input</div>
+            this.setState({loginError: false})
+        }, 2500);
+        return <div className="alert alert-danger text-center" role="alert">{this.state.errorMessage}</div>
     };
 
-    registerUser = async(event) => {
+    performRegistration = async (username, password, firstname, lastname, event) => {
         event.preventDefault();
-
-        if (!this.firstname || !this.lastname || !this.email || !this.password) {
-            this.setState({error: true});
-            return;
+        if (!username || !password || !firstname || !lastname) {
+            this.setState({
+                loginError: true,
+                errorMessage: 'Please fill all fields'
+            });
+        } else {
+            if (await new UserService().isRegistered(username)) {
+                this.setState({
+                    loginError: true,
+                    errorMessage: 'User is already registered'
+                });
+            } else {
+                this.sendData();
+            }
         }
+    };
 
-        console.log(this.firstname, this.lastname, this.email, this.password);
+    sendData = async() => {
         const response = await fetch('/register', {
             method: 'POST',
             headers: {
@@ -46,10 +60,15 @@ class RegistrationPage extends React.Component {
             body: JSON.stringify({
                 firstname: this.firstname,
                 lastname: this.lastname,
-                email: this.email,
+                username: this.username,
                 password: this.password})
         });
-        return response.json();
+
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw Error(response.statusText);
+        }
     };
 
     render() {
@@ -58,18 +77,21 @@ class RegistrationPage extends React.Component {
                 <MainNavBar/>
                 <div className="mainContainer">
                     <Card style={{width: '25rem'}}>
-                        {this.state.error ? this.showError(): null}
+                        {this.state.loginError ? this.showError(): null}
                         <Card.Body>
                             <Card.Title style={{textAlign: 'center'}}>Create An Account</Card.Title>
-                            <Form onSubmit={event => this.registerUser(event)}>
+                            <Form onSubmit={event => this.performRegistration(this.username, this.password, this.firstname, this.lastname, event)}>
                                 <Form.Group controlId="formFirstName">
                                     <Form.Control type="text" placeholder="First Name"  onChange={event => this.firstname = event.target.value}/>
                                 </Form.Group>
                                 <Form.Group controlId="formLastName">
                                     <Form.Control type="text" placeholder="Last Name"  onChange={event => this.lastname = event.target.value}/>
                                 </Form.Group>
-                                <Form.Group controlId="formEmail">
-                                    <Form.Control type="email" placeholder="Email"  onChange={event => this.email = event.target.value}/>
+                                {/*<Form.Group controlId="formEmail">*/}
+                                {/*    <Form.Control type="email" placeholder="Email"  onChange={event => this.email = event.target.value}/>*/}
+                                {/*</Form.Group>*/}
+                                <Form.Group controlId="formUsername">
+                                    <Form.Control type="text" placeholder="Username"  onChange={event => this.username = event.target.value}/>
                                 </Form.Group>
                                 <Form.Group controlId="formPassword">
                                     <Form.Control type="password" placeholder="Password"  onChange={event => this.password = event.target.value}/>

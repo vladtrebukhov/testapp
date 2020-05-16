@@ -2,7 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const pino = require('express-pino-logger')();
-const AccountService = require('./AccountService');
+const AccountService = require('./account_service');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -19,10 +19,12 @@ app.post('/register', (req, res) => {
     accountService.registerUser(req.body, res);
 });
 
+app.post('/checkregistration', (req, res) => {
+    accountService.isRegisteredUser(req.body.username, res);
+});
+
 app.post('/login', (req, res) => {
-    if (req.body && req.body.username && req.body.password) {
-        accountService.isRegisteredUser(req.body.username, res);
-    }
+        accountService.login(req.body.username, req.body.password, res);
 });
 
 app.listen(port, () =>
