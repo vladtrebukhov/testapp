@@ -2,15 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2750d629-f5c2-4dc8-8e45-20552573c59a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/UserService.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountService.js" beforeDir="false" afterPath="$PROJECT_DIR$/account_service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api_gateway.js" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/LoginPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/LoginPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/account_service.js" beforeDir="false" afterPath="$PROJECT_DIR$/account_service.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/RegistrationPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/RegistrationPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/css/LoginPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/css/LoginPage.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +119,8 @@
       <workItem from="1589077528998" duration="3984000" />
       <workItem from="1589636049009" duration="3728000" />
       <workItem from="1589639870509" duration="482000" />
-      <workItem from="1589640363340" duration="6646000" />
+      <workItem from="1589640363340" duration="6838000" />
+      <workItem from="1590202921084" duration="7753000" />
     </task>
     <servers />
   </component>
@@ -174,10 +169,10 @@
       <screen x="0" y="0" width="2560" height="1040" />
     </state>
     <state x="976" y="252" width="737" height="606" key="find.popup/0.0.2560.1040@0.0.2560.1040" timestamp="1589646269758" />
-    <state x="936" y="240" key="run.anything.popup" timestamp="1589606463091">
+    <state x="936" y="240" key="run.anything.popup" timestamp="1590207620320">
       <screen x="0" y="0" width="2560" height="1040" />
     </state>
-    <state x="936" y="240" key="run.anything.popup/0.0.2560.1040@0.0.2560.1040" timestamp="1589606463091" />
+    <state x="936" y="240" key="run.anything.popup/0.0.2560.1040@0.0.2560.1040" timestamp="1590207620320" />
     <state x="943" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1589049240275">
       <screen x="0" y="0" width="2560" height="1040" />
     </state>

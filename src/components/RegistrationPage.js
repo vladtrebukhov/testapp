@@ -21,6 +21,7 @@ class RegistrationPage extends React.Component {
         this.firstname = null;
         this.lastname = null;
         this.username = null;
+        this.email = null;
         this.password = null;
 
     };
@@ -46,12 +47,13 @@ class RegistrationPage extends React.Component {
                     errorMessage: 'User is already registered'
                 });
             } else {
-                this.sendData();
+               let response = await this.sendCredentials();
+               console.log(response);
             }
         }
     };
 
-    sendData = async() => {
+    sendCredentials = async() => {
         const response = await fetch('/register', {
             method: 'POST',
             headers: {
@@ -60,6 +62,7 @@ class RegistrationPage extends React.Component {
             body: JSON.stringify({
                 firstname: this.firstname,
                 lastname: this.lastname,
+                email: this.email,
                 username: this.username,
                 password: this.password})
         });
@@ -87,9 +90,9 @@ class RegistrationPage extends React.Component {
                                 <Form.Group controlId="formLastName">
                                     <Form.Control type="text" placeholder="Last Name"  onChange={event => this.lastname = event.target.value}/>
                                 </Form.Group>
-                                {/*<Form.Group controlId="formEmail">*/}
-                                {/*    <Form.Control type="email" placeholder="Email"  onChange={event => this.email = event.target.value}/>*/}
-                                {/*</Form.Group>*/}
+                                <Form.Group controlId="formEmail">
+                                    <Form.Control type="email" placeholder="Email"  onChange={event => this.email = event.target.value}/>
+                                </Form.Group>
                                 <Form.Group controlId="formUsername">
                                     <Form.Control type="text" placeholder="Username"  onChange={event => this.username = event.target.value}/>
                                 </Form.Group>

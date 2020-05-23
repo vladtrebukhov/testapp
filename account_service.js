@@ -26,7 +26,7 @@ module.exports =  class AccountService {
     };
 
     isRegisteredUser = (username, callback) => {
-        this.usersRef.on('value', (snapshot) => {
+        this.usersRef.once('value', (snapshot) => {
             let dbUserData = snapshot.val();
             let isRegistered = dbUserData[username] ? true : false;
             isRegistered ? callback.send(true) : callback.send(false);
@@ -35,14 +35,14 @@ module.exports =  class AccountService {
 
     registerUser = (userData, callback) => {
             //snapshot is the current state of the database
-            this.usersRef.on('value', (snapshot) => {
+            this.usersRef.once('value', (snapshot) => {
                 firebase.database().ref('users/' + userData.username).set({
                     firstname: userData.firstname,
                     lastname: userData.lastname,
+                    email: userData.email,
                     password: userData.password
-                });
-                callback.send('success!');
-            });
+                }).then(() => callback.send({response: 'Successfully registered!'}));
+            })
         }
 };
 
