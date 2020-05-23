@@ -4,16 +4,18 @@ import MainNavBar from './MainNavBar';
 import Button from 'react-bootstrap/Button'
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
-import UserService from "../UserService";
+import APIService from "../APIService";
+import {Redirect} from "react-router-dom";
 
 export default class LoginPage extends React.Component {
     constructor(props) {
         super(props);
-        this.username = null;
+        this.email = null;
         this.password = null;
         this.state = {
             loginError: null,
-            errorMessage: null
+            errorMessage: null,
+            redirect: null
         };
     }
 
@@ -24,43 +26,33 @@ export default class LoginPage extends React.Component {
         return <div className="alert alert-danger text-center" role="alert">{this.state.errorMessage}</div>
     };
 
-    performLogin = async (username, password, event) => {
+    performLogin = async (email, password, event) => {
         event.preventDefault();
-        if (!username || !password) {
+        if (!email || !password) {
            this.setState({
                loginError: true,
-               errorMessage: 'Please check your username and password'
+               errorMessage: 'Please check your email and password'
            });
         } else {
-            let userData = await new UserService().validateCredentialsAndLogin(username, password);
-            if (userData['wrongPassword']) {
-                this.setState({
-                    loginError: true,
-                    errorMessage: 'Password is incorrect.'
-                });
-            } else if (userData['userDoesNotExist']) {
-                this.setState({
-                    loginError: true,
-                    errorMessage: 'User does not exist.'
-                });
-            } else {
-                console.log('Welcome')
-            }
+            let body = {email: email, password: password};
+            let response = await new APIService().sendCredentialsToGateway('/login', body);
+            response.code ? this.setState({loginError: true, errorMessage: response.message}) : this.setState({redirect: true});
         }
     };
 
     render() {
         return (
             <div>
+                {this.state.redirect ? <Redirect to='/home' /> : null}
                 <MainNavBar/>
                 <div className="mainContainer">
                     <Card style={{width: '25rem'}}>
                         {this.state.loginError ? this.showError(): null}
                         <Card.Body>
                             <Card.Title style={{textAlign: 'center'}}>Login</Card.Title>
-                            <Form onSubmit={event => this.performLogin(this.username, this.password, event)}>
-                                <Form.Group controlId="formUsername">
-                                    <Form.Control type="text" placeholder="Username" onChange={event => this.username = event.target.value}/>
+                            <Form onSubmit={event => this.performLogin(this.email, this.password, event)}>
+                                <Form.Group controlId="formEmail">
+                                    <Form.Control type="text" placeholder="Email" onChange={event => this.email = event.target.value}/>
                                 </Form.Group>
                                 <Form.Group controlId="formPassword">
                                     <Form.Control type="password" placeholder="Password" onChange={event => this.password = event.target.value}/>

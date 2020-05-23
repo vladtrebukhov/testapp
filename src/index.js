@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import App from './App';
 import RegistrationPage from './components/RegistrationPage';
 import LoginPage from "./components/LoginPage";
+import Homepage from "./components/Homepage";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 //list of routes for application
@@ -15,6 +16,7 @@ const routing = (
             <Route exact path="/" component={App} />
             <Route path="/login" component={LoginPage}/>
             <Route path="/register" component={RegistrationPage}/>
+            <Route path="/home" component={Homepage}/>
         </div>
     </Router>
 );

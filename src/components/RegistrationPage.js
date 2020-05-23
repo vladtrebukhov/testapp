@@ -4,7 +4,8 @@ import MainNavBar from './MainNavBar';
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
-import UserService from "../UserService";
+import APIService from "../APIService";
+import { Redirect } from 'react-router-dom'
 
 //using bcrypt for hashing passwords - figure this out eventually
 // const bcrypt = require('bcrypt');
@@ -16,11 +17,11 @@ class RegistrationPage extends React.Component {
         //need to put error in state to re-render component after setState
         this.state = {
             loginError: null,
-            errorMessage: null
+            errorMessage: null,
+            redirect: null,
         };
         this.firstname = null;
         this.lastname = null;
-        this.username = null;
         this.email = null;
         this.password = null;
 
@@ -33,57 +34,31 @@ class RegistrationPage extends React.Component {
         return <div className="alert alert-danger text-center" role="alert">{this.state.errorMessage}</div>
     };
 
-    performRegistration = async (username, password, firstname, lastname, event) => {
+    performRegistration = async (password, email, firstname, lastname, event) => {
         event.preventDefault();
-        if (!username || !password || !firstname || !lastname) {
+        if (!password || !firstname || !lastname || !email) {
             this.setState({
                 loginError: true,
                 errorMessage: 'Please fill all fields'
             });
         } else {
-            if (await new UserService().isRegistered(username)) {
-                this.setState({
-                    loginError: true,
-                    errorMessage: 'User is already registered'
-                });
-            } else {
-               let response = await this.sendCredentials();
-               console.log(response);
-            }
-        }
-    };
-
-    sendCredentials = async() => {
-        const response = await fetch('/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': "application/json"
-            },
-            body: JSON.stringify({
-                firstname: this.firstname,
-                lastname: this.lastname,
-                email: this.email,
-                username: this.username,
-                password: this.password})
-        });
-
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw Error(response.statusText);
+            let body = {firstname: firstname, lastname: lastname, email: email, password: password};
+            let response = await new APIService().sendCredentialsToGateway('/register', body);
+            response.code ? this.setState({loginError: true, errorMessage: response.message}) :  this.setState({redirect: true});
         }
     };
 
     render() {
         return (
             <div>
+                {this.state.redirect ? <Redirect to='/login' /> : null}
                 <MainNavBar/>
                 <div className="mainContainer">
                     <Card style={{width: '25rem'}}>
                         {this.state.loginError ? this.showError(): null}
                         <Card.Body>
                             <Card.Title style={{textAlign: 'center'}}>Create An Account</Card.Title>
-                            <Form onSubmit={event => this.performRegistration(this.username, this.password, this.firstname, this.lastname, event)}>
+                            <Form onSubmit={event => this.performRegistration(this.password, this.email, this.firstname, this.lastname, event)}>
                                 <Form.Group controlId="formFirstName">
                                     <Form.Control type="text" placeholder="First Name"  onChange={event => this.firstname = event.target.value}/>
                                 </Form.Group>
@@ -92,9 +67,6 @@ class RegistrationPage extends React.Component {
                                 </Form.Group>
                                 <Form.Group controlId="formEmail">
                                     <Form.Control type="email" placeholder="Email"  onChange={event => this.email = event.target.value}/>
-                                </Form.Group>
-                                <Form.Group controlId="formUsername">
-                                    <Form.Control type="text" placeholder="Username"  onChange={event => this.username = event.target.value}/>
                                 </Form.Group>
                                 <Form.Group controlId="formPassword">
                                     <Form.Control type="password" placeholder="Password"  onChange={event => this.password = event.target.value}/>
