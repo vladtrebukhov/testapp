@@ -43,7 +43,7 @@ export default class LoginPage extends React.Component {
     render() {
         return (
             <div>
-                {this.state.redirect ? <Redirect to='/home' /> : null}
+                {this.state.redirect ? <Redirect to='/home'/> : null}
                 <MainNavBar/>
                 <div className="mainContainer">
                     <Card style={{width: '25rem'}}>

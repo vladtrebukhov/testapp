@@ -26,6 +26,13 @@ module.exports =  class AccountService {
         let response;
         try {
            response = await firebase.auth().createUserWithEmailAndPassword(userData.email, userData.password);
+            this.usersRef.on('value', (snapshot) => {
+                firebase.database().ref('users/' + response.user.uid).set({
+                    firstname: userData.firstname,
+                    lastname: userData.lastname,
+                    email: userData.email
+                })
+            });
         } catch(error) {
             response = error;
         }
